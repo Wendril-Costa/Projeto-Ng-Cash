@@ -4,7 +4,8 @@
     "module": "commonjs",
     "rootDir": "./app",
     "outDir": "./dist",                             
-    "esModuleInterop": true,    
+    "esModuleInterop": true,
+    "moduleResolution": "node",    
     "strict": true,                                                                  
-  }
+  },
 }
