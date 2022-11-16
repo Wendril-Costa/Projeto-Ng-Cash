@@ -1,5 +1,6 @@
 import express from 'express'
 import 'express-async-errors'
+import { StatusCodes } from 'http-status-codes'
 
 class App {
   public app: express.Express
@@ -15,7 +16,7 @@ class App {
   }
 
   private routes (): void {
-
+    this.app.get('/', (req, res) => res.status(StatusCodes.OK).json({ message: 'Ok' }))
   }
 
   public start (PORT: number | string): void {
