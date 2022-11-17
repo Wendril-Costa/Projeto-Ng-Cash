@@ -17,6 +17,7 @@ class App {
 
   private routes (): void {
     this.app.get('/', (req, res) => res.status(StatusCodes.OK).json({ message: 'Ok' }))
+    this.app.post('/users', (req, res) => res.status(StatusCodes.BAD_REQUEST).json({ error: 'O campo "username" é obrigatório' }))
   }
 
   public start (PORT: number | string): void {

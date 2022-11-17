@@ -4,10 +4,11 @@
   "description": "Estruturar uma aplicação web fullstack, dockerizada, cujo objetivo seja possibilitar que usuários consigam realizar transferências internas entre si",
   "main": "index.js",
   "scripts": {
-    "test:integration": "mocha --require ts-node/register app/backend/src/tests/integration/*.test.ts",
-    "dev": "tsnd app/backend/src/api/server.ts",
+    "test:integration": "mocha --require ts-node/register src/tests/integration/*.test.ts",
+    "dev": "tsnd src/api/server.ts",
     "start": "npm run build && node .dist/server.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "db:reset": "npx -y tsc && npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate"
   },
   "repository": {
     "type": "git",
@@ -52,6 +53,7 @@
     "http-status-codes": "^2.2.0",
     "joi": "^17.7.0",
     "jsonwebtoken": "^8.5.1",
-    "sequelize": "^6.25.6"
+    "sequelize": "^6.25.6",
+    "sequelize-bcrypt": "^1.2.0"
   }
 }
