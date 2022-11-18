@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import 'express-async-errors'
 import { StatusCodes } from 'http-status-codes'
 
@@ -13,6 +14,7 @@ class App {
 
   private config (): void {
     this.app.use(express.json())
+    this.app.use(cors())
   }
 
   private routes (): void {
