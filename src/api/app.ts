@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import 'express-async-errors'
 import { StatusCodes } from 'http-status-codes'
+import { registerRouter } from '../routes/resgiterRouter'
 
 class App {
   public app: express.Express
@@ -19,7 +20,7 @@ class App {
 
   private routes (): void {
     this.app.get('/', (req, res) => res.status(StatusCodes.OK).json({ message: 'Ok' }))
-    this.app.post('/users', (req, res) => res.status(StatusCodes.BAD_REQUEST).json({ error: 'O campo "username" é obrigatório' }))
+    this.app.use(registerRouter)
   }
 
   public start (PORT: number | string): void {

@@ -45,10 +45,30 @@ describe('POST /users', () => {
         it('Deve retornar um status 400', () => __awaiter(void 0, void 0, void 0, function* () {
             const httpResponse = yield chai_1.default
                 .request(app_1.app)
-                .post('/users')
+                .post('/register')
                 .send({ password: 'any_password' });
             (0, chai_1.expect)(httpResponse.status).to.equal(http_status_codes_1.StatusCodes.BAD_REQUEST);
             (0, chai_1.expect)(httpResponse.body).to.deep.equal({ error: 'O campo "username" é obrigatório' });
+        }));
+    });
+    describe('Quando o campo "password" não é informado ', () => {
+        it('Deve retornar um status 400', () => __awaiter(void 0, void 0, void 0, function* () {
+            const httpResponse = yield chai_1.default
+                .request(app_1.app)
+                .post('/register')
+                .send({ username: 'any_username' });
+            (0, chai_1.expect)(httpResponse.status).to.equal(http_status_codes_1.StatusCodes.BAD_REQUEST);
+            (0, chai_1.expect)(httpResponse.body).to.deep.equal({ error: 'O campo "password" é obrigatório' });
+        }));
+    });
+    describe('Quando a requisição é feita com sucesso', () => {
+        it('Deve retornar um status 201', () => __awaiter(void 0, void 0, void 0, function* () {
+            const httpResponse = yield chai_1.default
+                .request(app_1.app)
+                .post('/register')
+                .send({ username: 'any_username', password: 'any_password' });
+            (0, chai_1.expect)(httpResponse.status).to.equal(http_status_codes_1.StatusCodes.CREATED);
+            // expect(httpResponse.body).to.deep.equal({ error: 'O campo "password" é obrigatório' })
         }));
     });
 });
