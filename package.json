@@ -4,7 +4,7 @@
   "description": "Estruturar uma aplicação web fullstack, dockerizada, cujo objetivo seja possibilitar que usuários consigam realizar transferências internas entre si",
   "main": "index.js",
   "scripts": {
-    "test:integration": "mocha --require ts-node/register src/tests/integration/*.test.ts",
+    "test:integration": "mocha --require ts-node/register src/tests/integration/*.test.ts --exit",
     "dev": "tsnd src/api/server.ts",
     "start": "npm run build && node .dist/server.ts",
     "build": "tsc",

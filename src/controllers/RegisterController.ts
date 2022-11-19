@@ -9,8 +9,8 @@ export class RegisterController {
     this.registerService = registerService
   }
 
-  create (req: Request, res: Response): Response | void {
-    this.registerService.create(req.body)
+  async create (req: Request, res: Response): Promise<Response> {
+    await this.registerService.create(req.body)
     return res.sendStatus(StatusCodes.CREATED)
   }
 }

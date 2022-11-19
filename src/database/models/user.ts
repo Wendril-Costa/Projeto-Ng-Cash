@@ -3,9 +3,9 @@ import db from '.'
 import Account from './account'
 
 class User extends Model {
-  id!: number
-  username!: string
-  password!: string
+  readonly id!: number
+  public username!: string
+  public password!: string
 }
 
 User.init({
