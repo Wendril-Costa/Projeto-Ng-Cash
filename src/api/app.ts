@@ -3,6 +3,7 @@ import cors from 'cors'
 import 'express-async-errors'
 import { StatusCodes } from 'http-status-codes'
 import { registerRouter } from '../routes/resgiterRouter'
+import { errorMiddleware } from '../middlewares/errorMiddleware'
 
 class App {
   public app: express.Express
@@ -21,6 +22,7 @@ class App {
   private routes (): void {
     this.app.get('/', (req, res) => res.status(StatusCodes.OK).json({ message: 'Ok' }))
     this.app.use(registerRouter)
+    this.app.use(errorMiddleware)
   }
 
   public start (PORT: number | string): void {

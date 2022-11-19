@@ -1,19 +1,16 @@
 import { StatusCodes } from 'http-status-codes'
 import { Request, Response } from 'express'
-import { RegisterService } from '../services/RegisterService'
+import { IRegisterService } from '../interfaces/IRegisterService'
 
 export class RegisterController {
-  private readonly registerService: RegisterService
+  private readonly registerService: IRegisterService
 
-  constructor () {
-    this.registerService = new RegisterService()
+  constructor (registerService: IRegisterService) {
+    this.registerService = registerService
   }
 
   create (req: Request, res: Response): Response | void {
-    const error = this.registerService.create(req.body)
-
-    if (error) return res.status(StatusCodes.BAD_REQUEST).json(error)
-
+    this.registerService.create(req.body)
     return res.sendStatus(StatusCodes.CREATED)
   }
 }

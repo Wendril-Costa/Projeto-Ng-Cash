@@ -35,7 +35,6 @@ describe('POST /users', () => {
         .post('/register')
         .send({ username: 'any_username', password: 'any_password' })
       expect(httpResponse.status).to.equal(StatusCodes.CREATED)
-      // expect(httpResponse.body).to.deep.equal({ error: 'O campo "password" é obrigatório' })
     })
   })
 })
