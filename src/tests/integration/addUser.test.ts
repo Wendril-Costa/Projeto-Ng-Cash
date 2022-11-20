@@ -8,7 +8,7 @@ import User from '../../database/models/user'
 
 chai.use(chaiHttp)
 
-describe('POST /users', () => {
+describe('POST /register', () => {
   describe('Quando o campo "username" não é informado ', () => {
     it('Deve retornar um status 400', async () => {
       const httpResponse = await chai
@@ -44,8 +44,9 @@ describe('POST /users', () => {
 
   describe('Quando o username já está cadastrado no banco de dados', () => {
     const user = { id: 1, username: 'any_username', password: 'any_password' }
-    before(() => sinon.stub(Model, 'findOne')
-      .resolves(user as User))
+    before(() => {
+      sinon.stub(Model, 'findOne').resolves(user as User)
+    })
     after(() => sinon.restore())
 
     it('Deve retornar um 409', async () => {
@@ -59,6 +60,12 @@ describe('POST /users', () => {
   })
 
   describe('Quando a requisição é feita com sucesso', () => {
+    const user = { id: 1, username: 'any_username', password: 'any_password' }
+    before(() => {
+      sinon.stub(Model, 'findOne').resolves(null)
+      sinon.stub(Model, 'create').resolves(user as User)
+    })
+    after(() => sinon.restore())
     it('Deve retornar um status 201', async () => {
       const httpResponse = await chai
         .request(app)

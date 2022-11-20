@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const _1 = __importDefault(require("."));
-const user_1 = __importDefault(require("./user"));
+// import User from './user'
 class Account extends sequelize_1.Model {
 }
 Account.init({
@@ -25,6 +25,6 @@ Account.init({
     modelName: 'accounts',
     timestamps: false
 });
-Account.hasOne(user_1.default, { foreignKey: 'accountId', as: 'users' });
-Account.hasMany(user_1.default, { foreignKey: 'accountId', as: 'transactions' });
+// Account.hasOne(User, { foreignKey: 'accountId', as: 'users' })
+// Account.hasMany(User, { foreignKey: 'accountId', as: 'transactions' })
 exports.default = Account;

@@ -9,6 +9,7 @@ const cors_1 = __importDefault(require("cors"));
 require("express-async-errors");
 const http_status_codes_1 = require("http-status-codes");
 const resgiterRouter_1 = require("../routes/resgiterRouter");
+const errorMiddleware_1 = require("../middlewares/errorMiddleware");
 class App {
     constructor() {
         this.app = (0, express_1.default)();
@@ -22,6 +23,7 @@ class App {
     routes() {
         this.app.get('/', (req, res) => res.status(http_status_codes_1.StatusCodes.OK).json({ message: 'Ok' }));
         this.app.use(resgiterRouter_1.registerRouter);
+        this.app.use(errorMiddleware_1.errorMiddleware);
     }
     start(PORT) {
         this.app.listen(PORT, () => console.log(`Server is runing at http://localhost:${PORT}`));

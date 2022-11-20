@@ -24,8 +24,13 @@ export class RegisterService implements IRegisterService {
     }
 
     const isUser = await User.findOne({ where: { username: register.username } })
+    console.log(isUser)
     if (isUser) {
       throw new ConflictError('O username já existe')
     }
+
+    const newUser = await User.create({ ...register })
+    console.log(newUser)
+    return newUser
   }
 }

@@ -38,9 +38,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = __importStar(require("chai"));
 const chai_http_1 = __importDefault(require("chai-http"));
 const http_status_codes_1 = require("http-status-codes");
+const sequelize_1 = require("sequelize");
+const sinon_1 = __importDefault(require("sinon"));
 const app_1 = require("../../api/app");
 chai_1.default.use(chai_http_1.default);
-describe('POST /users', () => {
+describe('POST /register', () => {
     describe('Quando o campo "username" não é informado ', () => {
         it('Deve retornar um status 400', () => __awaiter(void 0, void 0, void 0, function* () {
             const httpResponse = yield chai_1.default
@@ -49,6 +51,16 @@ describe('POST /users', () => {
                 .send({ password: 'any_password' });
             (0, chai_1.expect)(httpResponse.status).to.equal(http_status_codes_1.StatusCodes.BAD_REQUEST);
             (0, chai_1.expect)(httpResponse.body).to.deep.equal({ error: 'O campo "username" é obrigatório' });
+        }));
+    });
+    describe('Quando o campo "username" é menor que 3 caracteres', () => {
+        it('Deve retornar um status 400', () => __awaiter(void 0, void 0, void 0, function* () {
+            const httpResponse = yield chai_1.default
+                .request(app_1.app)
+                .post('/register')
+                .send({ username: 'an', password: 'any_password' });
+            (0, chai_1.expect)(httpResponse.status).to.equal(http_status_codes_1.StatusCodes.BAD_REQUEST);
+            (0, chai_1.expect)(httpResponse.body).to.deep.equal({ error: 'O campo "username" deve ter pelo menos 3 caracteres' });
         }));
     });
     describe('Quando o campo "password" não é informado ', () => {
@@ -61,6 +73,22 @@ describe('POST /users', () => {
             (0, chai_1.expect)(httpResponse.body).to.deep.equal({ error: 'O campo "password" é obrigatório' });
         }));
     });
+    describe('Quando o username já está cadastrado no banco de dados', () => {
+        const user = { id: 1, username: 'any_username', password: 'any_password' };
+        before(() => {
+            sinon_1.default.stub(sequelize_1.Model, 'findOne').resolves(null);
+            sinon_1.default.stub(sequelize_1.Model, 'create').resolves(user);
+        });
+        after(() => sinon_1.default.restore());
+        it('Deve retornar um 409', () => __awaiter(void 0, void 0, void 0, function* () {
+            const httpResponse = yield chai_1.default
+                .request(app_1.app)
+                .post('/register')
+                .send({ username: 'any_username', password: 'any_password' });
+            (0, chai_1.expect)(httpResponse.status).to.equal(http_status_codes_1.StatusCodes.CONFLICT);
+            (0, chai_1.expect)(httpResponse.body).to.deep.equal({ error: 'O username já existe' });
+        }));
+    });
     describe('Quando a requisição é feita com sucesso', () => {
         it('Deve retornar um status 201', () => __awaiter(void 0, void 0, void 0, function* () {
             const httpResponse = yield chai_1.default
@@ -68,7 +96,6 @@ describe('POST /users', () => {
                 .post('/register')
                 .send({ username: 'any_username', password: 'any_password' });
             (0, chai_1.expect)(httpResponse.status).to.equal(http_status_codes_1.StatusCodes.CREATED);
-            // expect(httpResponse.body).to.deep.equal({ error: 'O campo "password" é obrigatório' })
         }));
     });
 });
