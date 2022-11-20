@@ -1,6 +1,6 @@
 export class MissingParamError extends Error {
   public status: number
-  constructor (message: string) {
+  constructor (message?: string) {
     super(message)
     this.status = 400
   }

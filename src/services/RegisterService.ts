@@ -1,5 +1,6 @@
 import User from '../database/models/user'
 import { MissingParamError } from '../err/missing-param-error'
+import { InvalidParamError } from '../err/invalid-param-error'
 import { IRegisterService } from '../interfaces/IRegisterService'
 import { ConflictError } from '../err/conflict-error'
 import Account from '../database/models/account'
@@ -25,19 +26,19 @@ export class RegisterService implements IRegisterService {
     }
 
     if (register.username.length < 3) {
-      throw new MissingParamError('O campo "username" deve ter pelo menos 3 caracteres')
+      throw new InvalidParamError('O campo "username" deve ter pelo menos 3 caracteres')
     }
 
     if (register.password.length < 8) {
-      throw new MissingParamError('O campo "password" deve ter pelo menos 8 caracteres')
+      throw new InvalidParamError('O campo "password" deve ter pelo menos 8 caracteres')
     }
 
     if (!regexNumber.test(register.password)) {
-      throw new MissingParamError('O campo "password" deve ter um numero')
+      throw new InvalidParamError('O campo "password" deve ter um numero')
     }
 
     if (!regexUpperCase.test(register.password)) {
-      throw new MissingParamError('O campo "password" deve ter uma letra maiuscula')
+      throw new InvalidParamError('O campo "password" deve ter uma letra maiuscula')
     }
     console.log(register.password)
 
@@ -47,15 +48,17 @@ export class RegisterService implements IRegisterService {
     console.log(register.password)
 
     const isUser = await User.findOne({ where: { username: register.username } })
-    console.log(isUser)
+
     if (isUser) {
       throw new ConflictError('O username já existe')
     }
 
-    const { id } = await Account.create()
-    console.log(id)
-    const newUser = await User.create({ ...register, accountId: id })
+    const newAccount = await Account.create()
+
+    const newUser = await User.create({ ...register, accountId: newAccount.id })
     console.log(newUser)
-    return { newUser }
+    const { id, username, accountId } = newUser
+
+    return { id, username, accountId }
   }
 }

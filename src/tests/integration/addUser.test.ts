@@ -21,12 +21,12 @@ describe('POST /register', () => {
   })
 
   describe('Quando o campo "username" é menor que 3 caracteres', () => {
-    it('Deve retornar um status 400', async () => {
+    it('Deve retornar um status 409', async () => {
       const httpResponse = await chai
         .request(app)
         .post('/register')
         .send({ username: 'an', password: 'any_password' })
-      expect(httpResponse.status).to.equal(StatusCodes.BAD_REQUEST)
+      expect(httpResponse.status).to.equal(StatusCodes.CONFLICT)
       expect(httpResponse.body).to.deep.equal({ error: 'O campo "username" deve ter pelo menos 3 caracteres' })
     })
   })
@@ -43,34 +43,34 @@ describe('POST /register', () => {
   })
 
   describe('Quando o campo "password" é menor que 8 caracteres', () => {
-    it('Deve retornar um status 400', async () => {
+    it('Deve retornar um status 409', async () => {
       const httpResponse = await chai
         .request(app)
         .post('/register')
         .send({ username: 'any_username', password: 'any_pa' })
-      expect(httpResponse.status).to.equal(StatusCodes.BAD_REQUEST)
+      expect(httpResponse.status).to.equal(StatusCodes.CONFLICT)
       expect(httpResponse.body).to.deep.equal({ error: 'O campo "password" deve ter pelo menos 8 caracteres' })
     })
   })
 
   describe('Quando o campo "password" não contém um numero', () => {
-    it('Deve retornar um status 400', async () => {
+    it('Deve retornar um status 409', async () => {
       const httpResponse = await chai
         .request(app)
         .post('/register')
         .send({ username: 'any_username', password: 'any_password' })
-      expect(httpResponse.status).to.equal(StatusCodes.BAD_REQUEST)
+      expect(httpResponse.status).to.equal(StatusCodes.CONFLICT)
       expect(httpResponse.body).to.deep.equal({ error: 'O campo "password" deve ter um numero' })
     })
   })
 
   describe('Quando o campo "password" não contém uma letra maiuscula', () => {
-    it('Deve retornar um status 400', async () => {
+    it('Deve retornar um status 409', async () => {
       const httpResponse = await chai
         .request(app)
         .post('/register')
         .send({ username: 'any_username', password: 'any_password1' })
-      expect(httpResponse.status).to.equal(StatusCodes.BAD_REQUEST)
+      expect(httpResponse.status).to.equal(StatusCodes.CONFLICT)
       expect(httpResponse.body).to.deep.equal({ error: 'O campo "password" deve ter uma letra maiuscula' })
     })
   })
@@ -105,6 +105,7 @@ describe('POST /register', () => {
         .post('/register')
         .send({ username: 'any_username', password: 'Any_password1' })
       expect(httpResponse.status).to.equal(StatusCodes.CREATED)
+      expect(httpResponse.body).to.have.all.keys(['id', 'username'])
     })
   })
 })

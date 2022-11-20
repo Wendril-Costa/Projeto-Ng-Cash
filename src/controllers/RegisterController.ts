@@ -10,7 +10,8 @@ export class RegisterController {
   }
 
   async create (req: Request, res: Response): Promise<Response> {
-    await this.registerService.create(req.body)
-    return res.sendStatus(StatusCodes.CREATED)
+    const user = await this.registerService.create(req.body)
+
+    return res.status(StatusCodes.CREATED).json(user)
   }
 }
