@@ -16,6 +16,7 @@ exports.RegisterService = void 0;
 const user_1 = __importDefault(require("../database/models/user"));
 const missing_param_error_1 = require("../err/missing-param-error");
 const conflict_error_1 = require("../err/conflict-error");
+const account_1 = __importDefault(require("../database/models/account"));
 class RegisterService {
     create(register) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -33,9 +34,11 @@ class RegisterService {
             if (isUser) {
                 throw new conflict_error_1.ConflictError('O username já existe');
             }
-            const newUser = yield user_1.default.create(Object.assign({}, register));
+            const { id } = yield account_1.default.create();
+            console.log(id);
+            const newUser = yield user_1.default.create(Object.assign(Object.assign({}, register), { accountId: id }));
             console.log(newUser);
-            return newUser;
+            return { newUser };
         });
     }
 }

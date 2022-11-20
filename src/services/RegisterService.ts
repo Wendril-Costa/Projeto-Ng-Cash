@@ -2,6 +2,7 @@ import User from '../database/models/user'
 import { MissingParamError } from '../err/missing-param-error'
 import { IRegisterService } from '../interfaces/IRegisterService'
 import { ConflictError } from '../err/conflict-error'
+import Account from '../database/models/account'
 
 export interface IRegister {
   username: string
@@ -29,8 +30,10 @@ export class RegisterService implements IRegisterService {
       throw new ConflictError('O username já existe')
     }
 
-    const newUser = await User.create({ ...register })
+    const { id } = await Account.create()
+    console.log(id)
+    const newUser = await User.create({ ...register, accountId: id })
     console.log(newUser)
-    return newUser
+    return { newUser }
   }
 }

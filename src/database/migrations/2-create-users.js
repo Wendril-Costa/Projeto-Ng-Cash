@@ -17,15 +17,15 @@ module.exports = {
       password: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      accountId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'accounts',
+          key: 'id'
+        }
       }
-    //   accountId: {
-    //     allowNull: false,
-    //     type: Sequelize.INTEGER,
-    //     references: {
-    //       model: 'accounts',
-    //       key: 'id'
-    //     }
-    //   }
     },
     {
       timestamps: false

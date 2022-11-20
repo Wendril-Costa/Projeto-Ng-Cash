@@ -76,8 +76,7 @@ describe('POST /register', () => {
     describe('Quando o username já está cadastrado no banco de dados', () => {
         const user = { id: 1, username: 'any_username', password: 'any_password' };
         before(() => {
-            sinon_1.default.stub(sequelize_1.Model, 'findOne').resolves(null);
-            sinon_1.default.stub(sequelize_1.Model, 'create').resolves(user);
+            sinon_1.default.stub(sequelize_1.Model, 'findOne').resolves(user);
         });
         after(() => sinon_1.default.restore());
         it('Deve retornar um 409', () => __awaiter(void 0, void 0, void 0, function* () {
@@ -90,6 +89,12 @@ describe('POST /register', () => {
         }));
     });
     describe('Quando a requisição é feita com sucesso', () => {
+        // const user = { id: 1, username: 'any_username', password: 'any_password' }
+        // before(() => {
+        //   sinon.stub(Model, 'findOne').resolves(null)
+        //   sinon.stub(Model, 'create').resolves(user as User)
+        // })
+        // after(() => sinon.restore())
         it('Deve retornar um status 201', () => __awaiter(void 0, void 0, void 0, function* () {
             const httpResponse = yield chai_1.default
                 .request(app_1.app)

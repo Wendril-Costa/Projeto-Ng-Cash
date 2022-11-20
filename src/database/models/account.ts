@@ -1,6 +1,5 @@
 import { INTEGER, Model, DECIMAL } from 'sequelize'
 import db from '.'
-// import User from './user'
 
 class Account extends Model {
   readonly id!: number
@@ -24,8 +23,5 @@ Account.init({
   modelName: 'accounts',
   timestamps: false
 })
-
-// Account.hasOne(User, { foreignKey: 'accountId', as: 'users' })
-// Account.hasMany(User, { foreignKey: 'accountId', as: 'transactions' })
 
 export default Account
