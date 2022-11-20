@@ -73,6 +73,26 @@ describe('POST /register', () => {
             (0, chai_1.expect)(httpResponse.body).to.deep.equal({ error: 'O campo "password" é obrigatório' });
         }));
     });
+    describe('Quando o campo "password" é menor que 8 caracteres', () => {
+        it('Deve retornar um status 400', () => __awaiter(void 0, void 0, void 0, function* () {
+            const httpResponse = yield chai_1.default
+                .request(app_1.app)
+                .post('/register')
+                .send({ username: 'any_username', password: 'any_pa' });
+            (0, chai_1.expect)(httpResponse.status).to.equal(http_status_codes_1.StatusCodes.BAD_REQUEST);
+            (0, chai_1.expect)(httpResponse.body).to.deep.equal({ error: 'O campo "password" deve ter pelo menos 8 caracteres' });
+        }));
+    });
+    // describe('Quando o campo "password" não contém um numero', () => {
+    //   it('Deve retornar um status 400', async () => {
+    //     const httpResponse = await chai
+    //       .request(app)
+    //       .post('/register')
+    //       .send({ username: 'any_username', password: 'any_password' })
+    //     expect(httpResponse.status).to.equal(StatusCodes.BAD_REQUEST)
+    //     expect(httpResponse.body).to.deep.equal({ error: 'O campo "password" deve ter um numero' })
+    //   })
+    // })
     describe('Quando o username já está cadastrado no banco de dados', () => {
         const user = { id: 1, username: 'any_username', password: 'any_password' };
         before(() => {
@@ -89,12 +109,12 @@ describe('POST /register', () => {
         }));
     });
     describe('Quando a requisição é feita com sucesso', () => {
-        // const user = { id: 1, username: 'any_username', password: 'any_password' }
-        // before(() => {
-        //   sinon.stub(Model, 'findOne').resolves(null)
-        //   sinon.stub(Model, 'create').resolves(user as User)
-        // })
-        // after(() => sinon.restore())
+        const user = { id: 1, username: 'any_username', password: 'any_password' };
+        before(() => {
+            sinon_1.default.stub(sequelize_1.Model, 'findOne').resolves(null);
+            sinon_1.default.stub(sequelize_1.Model, 'create').resolves(user);
+        });
+        after(() => sinon_1.default.restore());
         it('Deve retornar um status 201', () => __awaiter(void 0, void 0, void 0, function* () {
             const httpResponse = yield chai_1.default
                 .request(app_1.app)

@@ -21,6 +21,7 @@ class RegisterService {
     create(register) {
         return __awaiter(this, void 0, void 0, function* () {
             const requiredFields = ['username', 'password'];
+            const regex = /[0-9]/;
             for (const field of requiredFields) {
                 if (!register[field]) {
                     throw new missing_param_error_1.MissingParamError(`O campo "${field}" é obrigatório`);
@@ -28,6 +29,12 @@ class RegisterService {
             }
             if (register.username.length < 3) {
                 throw new missing_param_error_1.MissingParamError('O campo "username" deve ter pelo menos 3 caracteres');
+            }
+            if (register.password.length < 8) {
+                throw new missing_param_error_1.MissingParamError('O campo "password" deve ter pelo menos 8 caracteres');
+            }
+            if (!regex.test(register.password)) {
+                throw new missing_param_error_1.MissingParamError('O campo "password" deve ter um numero');
             }
             const isUser = yield user_1.default.findOne({ where: { username: register.username } });
             console.log(isUser);

@@ -42,8 +42,41 @@ describe('POST /register', () => {
     })
   })
 
+  describe('Quando o campo "password" é menor que 8 caracteres', () => {
+    it('Deve retornar um status 400', async () => {
+      const httpResponse = await chai
+        .request(app)
+        .post('/register')
+        .send({ username: 'any_username', password: 'any_pa' })
+      expect(httpResponse.status).to.equal(StatusCodes.BAD_REQUEST)
+      expect(httpResponse.body).to.deep.equal({ error: 'O campo "password" deve ter pelo menos 8 caracteres' })
+    })
+  })
+
+  describe('Quando o campo "password" não contém um numero', () => {
+    it('Deve retornar um status 400', async () => {
+      const httpResponse = await chai
+        .request(app)
+        .post('/register')
+        .send({ username: 'any_username', password: 'any_password' })
+      expect(httpResponse.status).to.equal(StatusCodes.BAD_REQUEST)
+      expect(httpResponse.body).to.deep.equal({ error: 'O campo "password" deve ter um numero' })
+    })
+  })
+
+  describe('Quando o campo "password" não contém uma letra maiuscula', () => {
+    it('Deve retornar um status 400', async () => {
+      const httpResponse = await chai
+        .request(app)
+        .post('/register')
+        .send({ username: 'any_username', password: 'any_password1' })
+      expect(httpResponse.status).to.equal(StatusCodes.BAD_REQUEST)
+      expect(httpResponse.body).to.deep.equal({ error: 'O campo "password" deve ter uma letra maiuscula' })
+    })
+  })
+
   describe('Quando o username já está cadastrado no banco de dados', () => {
-    const user = { id: 1, username: 'any_username', password: 'any_password' }
+    const user = { id: 1, username: 'any_username', password: 'Any_password1' }
     before(() => {
       sinon.stub(Model, 'findOne').resolves(user as User)
     })
@@ -53,14 +86,14 @@ describe('POST /register', () => {
       const httpResponse = await chai
         .request(app)
         .post('/register')
-        .send({ username: 'any_username', password: 'any_password' })
+        .send({ username: 'any_username', password: 'Any_password1' })
       expect(httpResponse.status).to.equal(StatusCodes.CONFLICT)
       expect(httpResponse.body).to.deep.equal({ error: 'O username já existe' })
     })
   })
 
   describe('Quando a requisição é feita com sucesso', () => {
-    const user = { id: 1, username: 'any_username', password: 'any_password' }
+    const user = { id: 1, username: 'any_username', password: 'Any_password1' }
     before(() => {
       sinon.stub(Model, 'findOne').resolves(null)
       sinon.stub(Model, 'create').resolves(user as User)
@@ -70,7 +103,7 @@ describe('POST /register', () => {
       const httpResponse = await chai
         .request(app)
         .post('/register')
-        .send({ username: 'any_username', password: 'any_password' })
+        .send({ username: 'any_username', password: 'Any_password1' })
       expect(httpResponse.status).to.equal(StatusCodes.CREATED)
     })
   })
