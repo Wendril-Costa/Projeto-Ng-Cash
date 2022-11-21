@@ -46,7 +46,7 @@ describe('POST /login', () => {
   })
 
   describe('Quando o username é encontrado mas a senha é incorreta', () => {
-    const user = { id: 1, username: 'any_username', password: 'Any_passwor1' }
+    const user = { id: 1, username: 'any_username', password: 'Any_password1' }
     before(() => sinon.stub(Model, 'findOne').resolves(user as User))
     before(() => sinon.stub(LoginService.prototype, 'checkPassword').returns(false))
     after(() => sinon.restore())
@@ -61,7 +61,8 @@ describe('POST /login', () => {
   })
 
   describe('Quando as credenciais estão corretas', () => {
-    const user = { id: 1, username: 'any_username', password: 'Any_passwor1' }
+    const passowrdBcrypt = '$2b$08$J4HUMRJS0yKI.qqhMUVzYur5JsinVFIdShoXW/UaiDjK6XZANxYFq'
+    const user = { id: 1, username: 'any_username', password: passowrdBcrypt }
     before(() => sinon.stub(Model, 'findOne').resolves(user as User))
     before(() => sinon.stub(LoginService.prototype, 'checkPassword').returns(true))
     after(() => sinon.restore())
