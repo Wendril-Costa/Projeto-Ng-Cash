@@ -1,9 +1,9 @@
 import User from '../database/models/user'
-import { IRegisterService } from '../interfaces/IRegisterService'
+import { IRegisterService } from '../interfaces/Service/IRegisterService'
 import { ConflictError } from '../err/conflict-error'
 import Account from '../database/models/account'
 import bcrypt from 'bcrypt'
-import { IRegisterModel } from '../interfaces/IRegisterModel'
+import { IRegisterModel } from '../interfaces/Model/IRegisterModel'
 import { IRegister } from '../interfaces/IRegister'
 
 export class RegisterService implements IRegisterService {

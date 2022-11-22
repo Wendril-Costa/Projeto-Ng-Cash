@@ -35,12 +35,12 @@ describe('POST /login', () => {
   describe('Quando o username não consta no banco de dados', () => {
     before(() => sinon.stub(Model, 'findOne').resolves(null))
     after(() => sinon.restore())
-    it('Deve retornar um status 401', async () => {
+    it('Deve retornar um status 403', async () => {
       const httpResponse = await chai
         .request(app)
         .post('/login')
         .send({ username: 'any_username', password: 'Any_passwor1' })
-      expect(httpResponse.status).to.equal(401)
+      expect(httpResponse.status).to.equal(403)
       expect(httpResponse.body).to.deep.equal({ error: 'Username ou Password são inválidos' })
     })
   })
@@ -50,12 +50,12 @@ describe('POST /login', () => {
     before(() => sinon.stub(Model, 'findOne').resolves(user as User))
     before(() => sinon.stub(LoginService.prototype, 'checkPassword').returns(false))
     after(() => sinon.restore())
-    it('Deve retornar um status 401', async () => {
+    it('Deve retornar um status 403', async () => {
       const httpResponse = await chai
         .request(app)
         .post('/login')
         .send({ username: 'any_username', password: 'Wrong_password1' })
-      expect(httpResponse.status).to.equal(401)
+      expect(httpResponse.status).to.equal(403)
       expect(httpResponse.body).to.deep.equal({ error: 'Username ou Password são inválidos' })
     })
   })

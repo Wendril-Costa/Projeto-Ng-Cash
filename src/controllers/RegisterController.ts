@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
 import { Request, Response } from 'express'
-import { IRegisterService } from '../interfaces/IRegisterService'
+import { IRegisterService } from '../interfaces/Service/IRegisterService'
 
 export class RegisterController {
   private readonly registerService: IRegisterService
