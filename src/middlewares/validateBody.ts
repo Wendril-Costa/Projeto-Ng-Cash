@@ -5,13 +5,14 @@ import { MissingParamError } from '../err/missing-param-error'
 type RequiredFields = ['username', 'password']
 
 const validateBody = (requiredFields: RequiredFields) => (req: Request, res: Response, next: NextFunction): any => {
+  const regexNumber = /[0-9]/
+  const regexUpperCase = /[A-Z]/
+
   for (const field of requiredFields) {
     if (!req.body[field]) {
       throw new MissingParamError(`O campo "${field}" é obrigatório`)
     }
   }
-  const regexNumber = /[0-9]/
-  const regexUpperCase = /[A-Z]/
 
   if (req.body.username.length < 3) {
     throw new InvalidParamError('O campo "username" deve ter pelo menos 3 caracteres')

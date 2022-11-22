@@ -5,6 +5,7 @@ import { StatusCodes } from 'http-status-codes'
 import { registerRouter } from '../routes/resgiterRouter'
 import { errorMiddleware } from '../middlewares/errorMiddleware'
 import { loginRouter } from '../routes/loginRouter'
+import { balanceRouter } from '../routes/balanceRouter'
 
 class App {
   public app: express.Express
@@ -22,7 +23,7 @@ class App {
 
   private routes (): void {
     this.app.get('/', (req, res) => res.status(StatusCodes.OK).json({ message: 'Ok' }))
-    this.app.use(registerRouter, loginRouter)
+    this.app.use(registerRouter, loginRouter, balanceRouter)
     this.app.use(errorMiddleware)
   }
 
