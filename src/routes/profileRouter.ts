@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { auth } from '../auth/validateJWT'
 import { ProfileController } from '../controllers/ProfileController'
 import { ProfileService } from '../services/ProfileService'
 
@@ -7,7 +8,7 @@ const profileController = new ProfileController(profileService)
 const router = Router()
 
 router
-  .get('/profile/:id',
+  .get('/profile/:id', auth,
     (req, res) => profileController.getProfile(req, res))
 
 export { router as profileRouter }
