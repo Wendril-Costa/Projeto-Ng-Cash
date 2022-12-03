@@ -11,6 +11,7 @@ export class LoginController {
 
   async login (req: Request, res: Response): Promise<Response> {
     const token = await this.loginService.login(req.body)
+
     return res.status(StatusCodes.OK).json(token)
   }
 }

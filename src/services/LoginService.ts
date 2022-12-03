@@ -12,7 +12,9 @@ const SECRET = process.env.JWT_SECRET as string
 export class LoginService implements ILoginService {
   checkPassword (userPassword: string, bodyPassword: string): boolean {
     const check = bcrypt.compare(bodyPassword, userPassword)
+
     if (!check) return false
+
     return true
   }
 
@@ -24,6 +26,7 @@ export class LoginService implements ILoginService {
     }
 
     const { id, username } = userLogin
+
     const token = jwt.sign({ id, username }, SECRET, {
       expiresIn: '1d',
       algorithm: 'HS256'

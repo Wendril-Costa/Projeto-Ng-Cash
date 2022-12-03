@@ -3,8 +3,17 @@ import db from '.'
 import Account from './account'
 
 class Transaction extends Model {
-  id!: number
-  value!: number
+  readonly id!: number
+  public debitedAccountId!: {
+    id: number
+  }
+
+  public creditedAccountId!: {
+    id: number
+  }
+
+  public value!: number
+  public createdAt!: number
 }
 
 Transaction.init({
@@ -36,7 +45,7 @@ Transaction.init({
   timestamps: false
 })
 
-Transaction.belongsTo(Account, { foreignKey: 'debitedAccount', as: 'accounts' })
-Transaction.belongsTo(Account, { foreignKey: 'creditedAccount', as: 'accounts' })
+Transaction.belongsTo(Account, { foreignKey: 'debitedAccount' })
+Transaction.belongsTo(Account, { foreignKey: 'creditedAccount' })
 
 export default Transaction

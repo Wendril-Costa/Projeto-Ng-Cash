@@ -12,23 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RegisterService = void 0;
-const user_1 = __importDefault(require("../database/models/user"));
-const conflict_error_1 = require("../err/conflict-error");
+exports.ProfileService = void 0;
+const auth_1 = require("../auth/auth");
 const account_1 = __importDefault(require("../database/models/account"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
-class RegisterService {
-    create(register) {
+const user_1 = __importDefault(require("../database/models/user"));
+const missing_param_error_1 = require("../err/missing-param-error");
+const not_found_1 = require("../err/not-found");
+class ProfileService {
+    getProfile(token) {
         return __awaiter(this, void 0, void 0, function* () {
-            const passwordHash = yield bcrypt_1.default.hash(register.password, 8);
-            register.password = passwordHash;
-            const isUser = yield user_1.default.findOne({ where: { username: register.username } });
-            if (isUser)
-                throw new conflict_error_1.ConflictError('O username já existe');
-            const newAccount = yield account_1.default.create();
-            const { id, username } = yield user_1.default.create(Object.assign(Object.assign({}, register), { accountId: newAccount.id }));
-            return { id, username };
+            if (!token)
+                throw new not_found_1.NotFoundError('Token não encontrado');
+            const id = yield (0, auth_1.propToken)(token);
+            const user = yield user_1.default.findByPk(id);
+            const account = yield account_1.default.findByPk(id);
+            if (!user)
+                throw new missing_param_error_1.MissingParamError('O usuario não existe');
+            if (!account)
+                throw new missing_param_error_1.MissingParamError('A conta não existe');
+            return { id: user.id, username: user.username, balance: account.balance };
         });
     }
 }
-exports.RegisterService = RegisterService;
+exports.ProfileService = ProfileService;

@@ -27,7 +27,6 @@ describe('GET /profile/:id', () => {
       const httpResponse = await chai
         .request(app)
         .get('/profile/:id')
-        .send({ username: 'any_username', password: 'Any_password1' })
         .set('Authorization', `Bearer ${token}`)
       expect(httpResponse.status).to.equal(StatusCodes.OK)
       expect(httpResponse.body).to.be.a('object')

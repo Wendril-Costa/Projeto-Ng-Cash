@@ -9,17 +9,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RegisterController = void 0;
+exports.TransactionController = void 0;
 const http_status_codes_1 = require("http-status-codes");
-class RegisterController {
-    constructor(registerService) {
-        this.registerService = registerService;
+class TransactionController {
+    constructor(transactionService) {
+        this.transactionService = transactionService;
     }
-    create(req, res) {
+    transaction(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.registerService.create(req.body);
-            return res.status(http_status_codes_1.StatusCodes.CREATED).json(user);
+            const { authorization: token } = req.headers;
+            const { username, value } = req.body;
+            const transaction = yield this.transactionService.transaction({ username, value, token });
+            return res.status(http_status_codes_1.StatusCodes.OK).json(transaction);
         });
     }
 }
-exports.RegisterController = RegisterController;
+exports.TransactionController = TransactionController;

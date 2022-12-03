@@ -6,6 +6,7 @@ import { registerRouter } from '../routes/resgiterRouter'
 import { errorMiddleware } from '../middlewares/errorMiddleware'
 import { loginRouter } from '../routes/loginRouter'
 import { profileRouter } from '../routes/profileRouter'
+import { transactionRouter } from '../routes/TransactionRouter'
 
 class App {
   public app: express.Express
@@ -23,7 +24,7 @@ class App {
 
   private routes (): void {
     this.app.get('/', (req, res) => res.status(StatusCodes.OK).json({ message: 'Ok' }))
-    this.app.use(registerRouter, loginRouter, profileRouter)
+    this.app.use(registerRouter, loginRouter, profileRouter, transactionRouter)
     this.app.use(errorMiddleware)
   }
 

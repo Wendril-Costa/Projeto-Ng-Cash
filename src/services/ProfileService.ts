@@ -1,22 +1,25 @@
+import { propToken } from '../auth/auth'
 import Account from '../database/models/account'
 import User from '../database/models/user'
 import { MissingParamError } from '../err/missing-param-error'
+import { NotFoundError } from '../err/not-found'
 import { IProfileModel } from '../interfaces/Model/IProfileModel'
 import { IProfileService } from '../interfaces/Service/IProfileService'
 
 export class ProfileService implements IProfileService {
-  async getProfile (id: number | string): Promise<IProfileModel> {
-    const user = await User.findByPk(id)
+  async getProfile (token: string | undefined): Promise<IProfileModel> {
+    if (!token) throw new NotFoundError('Token não encontrado')
 
-    if (!user) {
-      throw new MissingParamError('O usuario não existe')
-    }
+    const id = await propToken(token)
+
+    const user = await User.findByPk(id)
 
     const account = await Account.findByPk(id)
 
-    if (!account) {
-      throw new MissingParamError('A conta não existe')
-    }
+    if (!user || !account) throw new MissingParamError('O usuario não existe')
+
+    // if (!account) throw new MissingParamError('A conta não existe')
+
     return { id: user.id, username: user.username, balance: account.balance }
   }
 }

@@ -11,8 +11,10 @@ export class ProfileController {
   }
 
   async getProfile (req: Request, res: Response): Promise<Response> {
-    const { id } = req.params
-    const balance = await this.profileService.getProfile(id)
+    const { authorization: token } = req.headers
+
+    const balance = await this.profileService.getProfile(token)
+
     return res.status(StatusCodes.OK).json(balance)
   }
 }

@@ -36,6 +36,6 @@ Transaction.init({
     modelName: 'transactions',
     timestamps: false
 });
-Transaction.belongsTo(account_1.default, { foreignKey: 'debitedAccount', as: 'accounts' });
-Transaction.belongsTo(account_1.default, { foreignKey: 'creditedAccount', as: 'accounts' });
+Transaction.belongsTo(account_1.default, { foreignKey: 'debitedAccount' });
+Transaction.belongsTo(account_1.default, { foreignKey: 'creditedAccount' });
 exports.default = Transaction;

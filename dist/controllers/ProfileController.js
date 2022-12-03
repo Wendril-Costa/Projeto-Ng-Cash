@@ -9,17 +9,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RegisterController = void 0;
+exports.ProfileController = void 0;
+require("dotenv/config");
 const http_status_codes_1 = require("http-status-codes");
-class RegisterController {
-    constructor(registerService) {
-        this.registerService = registerService;
+class ProfileController {
+    constructor(balanceService) {
+        this.profileService = balanceService;
     }
-    create(req, res) {
+    getProfile(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.registerService.create(req.body);
-            return res.status(http_status_codes_1.StatusCodes.CREATED).json(user);
+            const { authorization: token } = req.headers;
+            const balance = yield this.profileService.getProfile(token);
+            return res.status(http_status_codes_1.StatusCodes.OK).json(balance);
         });
     }
 }
-exports.RegisterController = RegisterController;
+exports.ProfileController = ProfileController;
