@@ -12,7 +12,7 @@ const resgiterRouter_1 = require("../routes/resgiterRouter");
 const errorMiddleware_1 = require("../middlewares/errorMiddleware");
 const loginRouter_1 = require("../routes/loginRouter");
 const profileRouter_1 = require("../routes/profileRouter");
-const TransactionRouter_1 = require("../routes/TransactionRouter");
+const transactionRouter_1 = require("../routes/transactionRouter");
 class App {
     constructor() {
         this.app = (0, express_1.default)();
@@ -25,7 +25,7 @@ class App {
     }
     routes() {
         this.app.get('/', (req, res) => res.status(http_status_codes_1.StatusCodes.OK).json({ message: 'Ok' }));
-        this.app.use(resgiterRouter_1.registerRouter, loginRouter_1.loginRouter, profileRouter_1.profileRouter, TransactionRouter_1.transactionRouter);
+        this.app.use(resgiterRouter_1.registerRouter, loginRouter_1.loginRouter, profileRouter_1.profileRouter, transactionRouter_1.transactionRouter);
         this.app.use(errorMiddleware_1.errorMiddleware);
     }
     start(PORT) {

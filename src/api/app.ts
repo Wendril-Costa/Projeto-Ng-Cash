@@ -6,7 +6,7 @@ import { registerRouter } from '../routes/resgiterRouter'
 import { errorMiddleware } from '../middlewares/errorMiddleware'
 import { loginRouter } from '../routes/loginRouter'
 import { profileRouter } from '../routes/profileRouter'
-import { transactionRouter } from '../routes/TransactionRouter'
+import { transactionRouter } from '../routes/transactionRouter'
 
 class App {
   public app: express.Express

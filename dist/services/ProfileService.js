@@ -26,10 +26,8 @@ class ProfileService {
             const id = yield (0, auth_1.propToken)(token);
             const user = yield user_1.default.findByPk(id);
             const account = yield account_1.default.findByPk(id);
-            if (!user)
+            if (!user || !account)
                 throw new missing_param_error_1.MissingParamError('O usuario não existe');
-            if (!account)
-                throw new missing_param_error_1.MissingParamError('A conta não existe');
             return { id: user.id, username: user.username, balance: account.balance };
         });
     }

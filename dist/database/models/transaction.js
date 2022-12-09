@@ -27,7 +27,7 @@ Transaction.init({
         allowNull: false
     },
     createdAt: {
-        type: sequelize_1.DATE,
+        type: sequelize_1.DATEONLY,
         allowNull: false,
         defaultValue: sequelize_1.NOW
     }
@@ -36,6 +36,6 @@ Transaction.init({
     modelName: 'transactions',
     timestamps: false
 });
-Transaction.belongsTo(account_1.default, { foreignKey: 'debitedAccount' });
-Transaction.belongsTo(account_1.default, { foreignKey: 'creditedAccount' });
+Transaction.belongsTo(account_1.default, { foreignKey: 'debitedAccountId' });
+Transaction.belongsTo(account_1.default, { foreignKey: 'creditedAccountId' });
 exports.default = Transaction;

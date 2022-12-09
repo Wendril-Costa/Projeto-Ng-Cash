@@ -18,8 +18,6 @@ export class ProfileService implements IProfileService {
 
     if (!user || !account) throw new MissingParamError('O usuario não existe')
 
-    // if (!account) throw new MissingParamError('A conta não existe')
-
     return { id: user.id, username: user.username, balance: account.balance }
   }
 }

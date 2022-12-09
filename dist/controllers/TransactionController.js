@@ -23,5 +23,19 @@ class TransactionController {
             return res.status(http_status_codes_1.StatusCodes.OK).json(transaction);
         });
     }
+    getTransaction(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { authorization: token } = req.headers;
+            const transaction = yield this.transactionService.getTransaction(token);
+            return res.status(http_status_codes_1.StatusCodes.OK).json(transaction);
+        });
+    }
+    creditedTransaction(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { authorization: token } = req.headers;
+            const transaction = yield this.transactionService.creditedTransaction(token);
+            return res.status(http_status_codes_1.StatusCodes.OK).json(transaction);
+        });
+    }
 }
 exports.TransactionController = TransactionController;

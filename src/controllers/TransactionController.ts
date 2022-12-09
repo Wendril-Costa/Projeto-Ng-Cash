@@ -16,4 +16,20 @@ export class TransactionController {
 
     return res.status(StatusCodes.OK).json(transaction)
   }
+
+  async getTransaction (req: Request, res: Response): Promise<Response> {
+    const { authorization: token } = req.headers
+
+    const transaction = await this.transactionService.getTransaction(token)
+
+    return res.status(StatusCodes.OK).json(transaction)
+  }
+
+  async creditedTransaction (req: Request, res: Response): Promise<Response> {
+    const { authorization: token } = req.headers
+
+    const transaction = await this.transactionService.creditedTransaction(token)
+
+    return res.status(StatusCodes.OK).json(transaction)
+  }
 }
