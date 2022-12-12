@@ -8,7 +8,7 @@ const profileController = new ProfileController(profileService)
 const router = Router()
 
 router
-  .get('/profile/:id', auth,
+  .get('/profile', auth,
     (req, res) => profileController.getProfile(req, res))
 
 export { router as profileRouter }

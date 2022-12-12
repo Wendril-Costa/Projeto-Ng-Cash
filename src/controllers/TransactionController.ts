@@ -19,16 +19,27 @@ export class TransactionController {
 
   async getTransaction (req: Request, res: Response): Promise<Response> {
     const { authorization: token } = req.headers
+    const { date } = req.body
 
-    const transaction = await this.transactionService.getTransaction(token)
+    const transaction = await this.transactionService.getTransaction(token, date)
 
     return res.status(StatusCodes.OK).json(transaction)
   }
 
   async creditedTransaction (req: Request, res: Response): Promise<Response> {
     const { authorization: token } = req.headers
+    const { date } = req.body
 
-    const transaction = await this.transactionService.creditedTransaction(token)
+    const transaction = await this.transactionService.creditedTransaction(token, date)
+
+    return res.status(StatusCodes.OK).json(transaction)
+  }
+
+  async debitedTransaction (req: Request, res: Response): Promise<Response> {
+    const { authorization: token } = req.headers
+    const { date } = req.body
+
+    const transaction = await this.transactionService.debitedTransaction(token, date)
 
     return res.status(StatusCodes.OK).json(transaction)
   }

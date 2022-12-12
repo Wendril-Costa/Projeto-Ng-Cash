@@ -20,4 +20,8 @@ router
   .get('/transaction/credited', auth,
     (req, res) => transactionController.creditedTransaction(req, res))
 
+router
+  .get('/transaction/debited', auth,
+    (req, res) => transactionController.debitedTransaction(req, res))
+
 export { router as transactionRouter }

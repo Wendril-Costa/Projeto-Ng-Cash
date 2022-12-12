@@ -5,9 +5,10 @@ import { MissingParamError } from '../err/missing-param-error'
 import { NotFoundError } from '../err/not-found'
 import { IProfileModel } from '../interfaces/Model/IProfileModel'
 import { IProfileService } from '../interfaces/Service/IProfileService'
+import { TToken } from '../types/Token'
 
 export class ProfileService implements IProfileService {
-  async getProfile (token: string | undefined): Promise<IProfileModel> {
+  async getProfile (token: TToken): Promise<IProfileModel> {
     if (!token) throw new NotFoundError('Token não encontrado')
 
     const id = await propToken(token)
