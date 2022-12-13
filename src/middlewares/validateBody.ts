@@ -4,7 +4,7 @@ import { MissingParamError } from '../err/missing-param-error'
 import { RequiredFields } from '../types/RequiredFields'
 
 const validateBody = (requiredFields: RequiredFields) =>
-  (req: Request, res: Response, next: NextFunction): any => {
+  (req: Request, res: Response, next: NextFunction): void => {
     const regexNumber = /[0-9]/
     const regexUpperCase = /[A-Z]/
 

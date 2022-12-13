@@ -1,4 +1,5 @@
 export interface ITransactionModel {
-  createdAt: number
+  debitedAccount: string
+  creditedAccount: string
   value: number
 }

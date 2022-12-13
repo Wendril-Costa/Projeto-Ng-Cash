@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { auth } from '../auth/auth'
+import auth from '../auth/auth'
 import { TransactionController } from '../controllers/TransactionController'
 import { validateTransaction } from '../middlewares/validateTransaction'
 import { TransactionService } from '../services/TransactionService'

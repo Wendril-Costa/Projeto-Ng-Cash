@@ -12,6 +12,7 @@ export class TransactionController {
   async transaction (req: Request, res: Response): Promise<Response> {
     const { authorization: token } = req.headers
     const { username, value } = req.body
+
     const transaction = await this.transactionService.transaction({ username, value, token })
 
     return res.status(StatusCodes.OK).json(transaction)

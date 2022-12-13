@@ -1,8 +1,6 @@
 import { Op } from 'sequelize'
-import { propToken } from '../auth/auth'
-import Account from '../database/models/account'
+import propToken from '../auth/propToken'
 import Transaction from '../database/models/transaction'
-import User from '../database/models/user'
 import { NotFoundError } from '../err/not-found'
 import { ITransaction } from '../interfaces/ITransaction'
 import { ICredTransactionModel } from '../interfaces/Model/ICredTransactionModel'
@@ -12,38 +10,15 @@ import { ITransactionModel } from '../interfaces/Model/ITransactionModel'
 import { ITransactionService } from '../interfaces/Service/ITransactionService'
 import { TToken } from '../types/Token'
 import filterTransaction from '../utils/filterTransaction'
+import transfer from '../utils/transfer'
 
 export class TransactionService implements ITransactionService {
-  [x: string]: any
-  async transaction (transaction: ITransaction): Promise<ITransactionModel> {
-    const token = transaction.token
+  async transaction ({ username, value, token }: ITransaction): Promise<ITransactionModel> {
     if (!token) throw new NotFoundError('Token não encontrado')
 
-    const idToken = await propToken(token)
+    const result = transfer(username, value, token)
 
-    const dataOne = await Account.findOne({ where: { id: idToken } })
-
-    const myAccount = dataOne?.dataValues.balance
-
-    const dataUser = await User.findOne({ where: { username: transaction.username } })
-
-    const usernameId = dataUser?.dataValues.id
-
-    const dataTwo = await Account.findByPk(usernameId)
-
-    const outerAccount = dataTwo?.dataValues.balance
-
-    const value = Number(transaction.value)
-
-    const debited = Number(myAccount) - value
-
-    const credited = Number(outerAccount) + value
-
-    await Account.upsert({ id: idToken, balance: debited })
-    await Account.upsert({ id: usernameId, balance: credited })
-    const data = await Transaction.create({ debitedAccountId: idToken, creditedAccountId: usernameId, value })
-
-    return data
+    return await result
   }
 
   async getTransaction (token: TToken, date: number): Promise<IGetTransactionModel[]> {
