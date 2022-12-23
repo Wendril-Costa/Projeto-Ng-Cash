@@ -1,31 +1,20 @@
-import React, { Component } from 'react'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+import { Login } from "./pages/login/login";
+import { Register } from "./pages/register/register";
 
-
-class App extends Component {
-  state = {
-    apiResponse: ''
-  }
-
-  callAPI() {
-    fetch('http://localhost:3001')
-    .then(res => res.text())
-    .then(res => this.setState({ apiResponse: res }))
-    .catch(err => err)
-  }
-
-  componentDidMount() {
-    this.callAPI();
-  }
-
-  render() {
-    return (
-      <div>    
-        <h1 className="App-title">Welcome to React</h1>
-        <p className='App-intro'>{this.state.apiResponse}</p>
-      </div>
-    )
-  }
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </Router>
+  )
 }
 
 export default App
-
